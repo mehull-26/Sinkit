@@ -94,7 +94,7 @@
             loadingDiv.style.display = 'block';
             form.style.display = 'none';
 
-            let secondsLeft = 30; // Set your countdown time
+            let secondsLeft = 100; // Set your countdown time
             const countdownInterval = setInterval(() => {
                 secondsLeft--;
                 countdownText.innerText = `Processing your files, please wait... ${secondsLeft} seconds remaining`;
@@ -123,7 +123,7 @@
                 // Handle the response (for now, just log it)
                 console.log(data);
                 loadingDiv.style.display = 'none'; // Hide loading after processing
-                alert("Processing completed."); // Optionally notify user of completion
+                // alert("Processing completed."); // Optionally notify user of completion
                 // Optionally, you could redirect the user or update the page content here
             })
             .catch(error => {

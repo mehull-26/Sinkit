@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for
 import subprocess
 import os
+import time
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'  # Folder to store uploaded files
@@ -31,7 +32,9 @@ def upload_files():
 
     # Run your original Python script
     subprocess.Popen(['python', 'sinkit.py', srt_path, video_path])
-
+    
+    time.sleep(100)
+    
     return redirect(url_for('index'))
 
 if __name__ == '__main__':

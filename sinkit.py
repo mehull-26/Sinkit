@@ -8,6 +8,21 @@ from pydub import AudioSegment
 import speech_recognition as sr
 import difflib
 import sys
+from moviepy.editor import VideoFileClip
+
+def extract_audio_from_video(video_file_path, audio_file_path):
+    # Load the video file
+    video = VideoFileClip(video_file_path)
+    
+    # Extract audio
+    audio = video.audio
+    
+    # Write the audio to a file
+    audio.write_audiofile(audio_file_path, codec='mp3')  # You can specify other formats as well
+    
+    # Close the video and audio objects
+    audio.close()
+    video.close()
 
 running = True
 
@@ -182,21 +197,14 @@ def overlay_text_on_video(video_path, audio_path, srt_file_path):
     cap.release()
     pygame.quit()
 
-# Function to extract audio from video
-def extract_audio_from_video(video_path, output_audio_path):
-    try:
-        video_audio = AudioSegment.from_file(video_path)
-        video_audio.export(output_audio_path, format="wav")
-        return True  # Indicate success
-    except Exception as e:
-        print(f"Error extracting audio: {e}")
-        return False  # Indicate failure
-    
+
+
 if __name__ == "__main__":
     srt_file_path = sys.argv[1]  # First argument is SRT file path
     video_file_path = sys.argv[2] # Second argument is Video file path
-    audio_file_path = 'R4.wav' # Update as necessary
-    
+    audio_file_path = 'audio.mp3'
+    extract_audio_from_video(video_file_path, audio_file_path)
+
     timestamps_and_texts = extract_timestamps_and_texts(srt_file_path)
     
     # Start the transcription in a separate thread
@@ -205,7 +213,7 @@ if __name__ == "__main__":
     
     # Print the current time and wait for 30 seconds before starting the video playback
     print(f"Waiting for 30 seconds before starting the video playback. Current time: {time.strftime('%Y-%m-%d %H:%M:%S')}")
-    time.sleep(2)
+    time.sleep(100)
     
     # Start the video playback and overlay text
     overlay_text_on_video(video_file_path, audio_file_path, srt_file_path)
